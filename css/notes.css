@@ -1,0 +1,52 @@
+nav,
+.sidenav {
+    background-color: #18181b !important;
+
+}
+
+.btn-cl {
+    background-color: #353b45 !important;
+
+    &:hover {
+        background-color: #353b45 !important;
+
+    }
+}
+
+#editor {
+    position: relative;
+    height: 300px;
+}
+
+#output {
+    background: #e0e0e0;
+    box-shadow: 20px 20px 60px #bebebe,
+        -20px -20px 60px #ffffff;
+}
+
+
+main {
+    margin: 4px;
+}
+
+
+
+.btn-c {
+    background-color: #f44336 !important;
+
+    &:hover {
+        background-color: #fc776d !important;
+
+    }
+
+}
+
+div.toast-p {
+    color: #f44336 !important;
+    font-weight: 800;
+}
+
+div.toast-s {
+    color: #1b7a2d !important;
+    font-weight: 800;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Inicio de sesión y creación de cuenta">
+    <!-- <meta property="og:url" content="https://galeria-de-images.netlify.app"> -->
+    <meta property="og:image" content="/image.svg">
+    <meta property="og:description" content="Mostrando login de inicio y creación de cuenta">
+
+    <title>Login</title>
+    <link rel="shortcut icon" href="/image.svg" type="image/x-icon">
+    <link rel="stylesheet" href="/materialize.css">
+    <link rel="stylesheet" href="/main.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+</head>
+
+<body>
+    <a href="/" class="btn btn-cl">
+        Regresar</a>
+    <section id="section-sig" class="bg-text">
+
+        <div class="row">
+            <div class="center">
+                <h4>
+                    Ingresa
+                </h4>
+            </div>
+            <div class="center">
+                <form class="col s12" method="post" action="/signin">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="email" type="email" name="email" class="validate white-text" required>
+                            <label for="email">Email</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="password" type="password" name="password" class="validate white-text" required>
+                            <label for="password">Password</label>
+                        </div>
+                    </div>
+                    <button class="btn btn-block btn-c" type="submit">Ingresar</button>
+                </form>
+            </div>
+        </div>
+
+
+    </section>
+    <hr class="hr-section">
+    <div class="center">
+        <div class="white-text">
+            No tiene cuenta, registrese a continuación
+        </div>
+        <a href="/signup" class="">Crear cuenta</a>
+    </div>
+
+    <h1 id="error-message"></h1>
+    <script src="/materialize.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            M.toast({ html: 'Por favor, Ingrese correo y contraseña' })
+
+            // Capture the message of error of the URL
+            const urlParamsSaved = window.location.search;
+            let urlParamsConfig = urlParamsSaved.replace("signin?", "")
+            let urlParams = new URLSearchParams(urlParamsConfig);
+            const errorMessage = urlParams.get('error');
+            const infoMessage = urlParams.get('success');
+            if (errorMessage) {
+                M.toast({ html: `<div class="toast-p">${decodeURI(errorMessage)}</div>` })
+            }
+            if (infoMessage) {
+                M.toast({ html: `<div class="toast-s">${decodeURI(infoMessage)}</div>` })
+            }
+
+        })
+    </script>
+</body>
+
+</html>

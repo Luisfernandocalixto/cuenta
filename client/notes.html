@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Inicio de sesión y creación de cuenta">
+    <!-- <meta property="og:url" content="https://galeria-de-images.netlify.app"> -->
+    <meta property="og:image" content="/image.svg">
+    <meta property="og:description" content="Mostrando login de inicio y creación de cuenta">
+
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="/notes.css">
+    <link rel="stylesheet" href="/materialize.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Notas</title>
+
+</head>
+
+<body>
+    <!-- nav -->
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#!" class="brand-logo">
+                <span class="material-icons">chat_bubble</span>
+                Explorar
+
+            </a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="/logout" class="btn waves-effect waves-light btn-c">Salir</a></li>
+                <li><a href=""></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <ul class="sidenav" id="mobile-demo">
+        <li><a href="/logout" class="white-text">Salir</a></li>
+        <li><a href=""></a></li>
+    </ul>
+    <!-- nav -->
+
+
+    <br>
+    <div id="progress"></div>
+
+    <main>
+        <div id="editor"></div>
+        <button id="get-content" class="btn ">Obtener Contenido</button>
+        <div id="output"></div>
+    </main>
+
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            // Initialization Quill
+            var quill = new Quill('#editor', {
+                theme: 'snow'
+            });
+
+            let editor = document.querySelector(".ql-editor")
+
+            // have content does click in the button 
+            document.getElementById('get-content').addEventListener('click', function () {
+                var content = quill.root.innerHTML;
+                document.getElementById('output').innerHTML = content;
+            });
+
+            var elements = document.querySelectorAll('.sidenav');
+            var instances = M.Sidenav.init(elements)
+
+            await fetch('/api/user')
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                        if (data.error) {
+                            M.toast({ html: '<div class="toast-p">Ups!, ' + data.error + '</div>' })
+                            M.toast({ html: '<div class="toast-p">Redireccionando!</div>' })
+                            let meta = document.createElement('meta');
+                            meta.setAttribute('http-equiv', 'refresh');
+                            meta.setAttribute('content', '6;url=/');
+                            document.getElementsByTagName('head')[0].appendChild(meta);
+                            let progress = document.createElement('div')
+                            progress.innerHTML = `
+                         <div class="progress">
+                            <div class="indeterminate"></div>
+                         </div>
+                       `;
+                            document.getElementById('progress').appendChild(progress)
+
+                        }
+                        if (data.name) {
+                            M.toast({ html: '<div class="toast-s">Bienvenido, ' + data.name + '</div>' })
+                        }
+                    }
+                    else {
+                        console.error('Ups! Not have data');
+
+                    }
+                })
+                .catch(error => console.error('Error getting data'))
+        })
+    </script>
+    <script src="/materialize.js"></script>
+
+</body>
+
+</html>
