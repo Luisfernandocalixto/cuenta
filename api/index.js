@@ -31,15 +31,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 app.use(session({
     secret: 'mysecretapp',
-    resave: false,// no save the session no modifications
-    saveUninitialized: false, // not saved sessions not initial
-    store: MongoStore.create({
-        mongoUrl: process.env.DATABASE_URL,
-        ttl: 2 * 24 * 60 * 60,
-        autoRemove: 'native'
-    })
-
+    resave: false,
+    saveUninitialized: false,
 }));
+
+// app.use(session({
+//     secret: 'mysecretapp',
+//     resave: false,// no save the session no modifications
+//     saveUninitialized: false, // not saved sessions not initial
+//     store: MongoStore.create({
+//         mongoUrl: process.env.DATABASE_URL,
+//         ttl: 2 * 24 * 60 * 60,
+//         autoRemove: 'native'
+//     })
+
+// }));
 
 
 app.use(flash());
@@ -54,10 +60,10 @@ app.use((req, res, next) => {
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use((req, res, next) => {
-//     res.locals.user = req.user || null
-//     next()
-// })
+app.use((req, res, next) => {
+    res.locals.user = req.user || null
+    next()
+})
 
 // routes
 app.use(require('./routes/index.js'));
