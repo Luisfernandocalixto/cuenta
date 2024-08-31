@@ -5,6 +5,7 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
+const MongoStore = require('connect-mongo');
 
 // server
 const app = express();
@@ -30,8 +31,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 app.use(session({
     secret: 'mysecretapp',
-    resave: true,
-    saveUninitialized: true,
+    resave: false,// no save the session no modifications
+    saveUninitialized: false, // not saved sessions not initial
+    store: MongoStore.create({
+        mongoUrl: process.env.DATABASE_URL,
+        ttl: 2 * 24 * 60 * 60,
+        autoRemove: 'native'
+    })
+
 }));
 
 
