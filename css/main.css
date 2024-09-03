@@ -63,11 +63,11 @@ div.toast-s {
     width: 40%;
 }
 
-.span-message {
-    float: right;
-    position: absolute;
-    right: 20px;
-    top: 6px;
-    cursor: pointer;
-    padding: 4px;
+#visible {
+    float: right !important;
+    position: absolute !important;
+    right: 20px !important;
+    top: 6px !important;
+    cursor: pointer !important;
+    padding: 4px !important;
 }
