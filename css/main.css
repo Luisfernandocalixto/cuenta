@@ -2,7 +2,8 @@
     background-color: #14161a !important;
 }
 
-nav, .sidenav {
+nav,
+.sidenav {
     background-color: #18181b !important;
 }
 
@@ -60,4 +61,13 @@ div.toast-s {
 .hr-section {
     margin-top: 9%;
     width: 40%;
+}
+
+.span-message {
+    float: right;
+    position: absolute;
+    right: 20px;
+    top: 6px;
+    cursor: pointer;
+    padding: 4px;
 }

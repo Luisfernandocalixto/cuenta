@@ -47,6 +47,8 @@
                     <div class="row">
                         <div class="input-field col s12">
                             <input id="password" type="password" name="password" class="validate white-text" required>
+                            <span id="visible"
+                                class="span-message"><img src="/visible.webp" alt="as"></span>
                             <label for="password">Contraseña</label>
                         </div>
                     </div>
@@ -85,6 +87,25 @@
             if (errorMessage) {
                 M.toast({ html: `<div class="toast-p">${decodeURI(errorMessage)}</div>` })
             }
+
+
+            let visible = document.getElementById('visible');
+            
+            let input = document.getElementById('password');
+            let inputConfirm = document.getElementById('confirm_password');
+            visible.addEventListener('click', function () {
+                if (input.type === 'password') {
+                    input.type = "text";
+                    inputConfirm.type = "text";
+                    visible.innerHTML = `<img src="/invisible.webp" alt="invisible">`
+                }
+                else {
+                    input.type = "password";
+                    inputConfirm.type = "password";
+                    visible.innerHTML = `<img src="/visible.webp" alt="visible">`
+
+                }
+            })
 
         })
     </script>
