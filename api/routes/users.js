@@ -22,23 +22,23 @@ router.post('/signin', passport.authenticate('local', {
 
 }));
 
-router.get('/api/user', async (req, res) => {
-    try {
-        if (req.isAuthenticated()) {
-            res.json({ name: req.user.name })
-        }
-        else {
-            res.status(401).json({ error: 'No autorizado, No ha iniciado sesión con su cuenta' });
-        }
-    } catch (error) {
-        console.log('Error');
-    }
+// router.get('/api/user', async (req, res) => {
+//     try {
+//         if (req.isAuthenticated()) {
+//             res.json({ name: req.user.name })
+//         }
+//         else {
+//             res.status(401).json({ error: 'No autorizado, No ha iniciado sesión con su cuenta' });
+//         }
+//     } catch (error) {
+//         console.log('Error');
+//     }
 
-});
+// });
 
 // redireccionar directamente a signin 
 // router.get('/notes', isAuthenticated, async (req, res) => {  
-router.get('/notes', async (req, res) => {
+router.get('/notes', isAuthenticated, async (req, res) => {
     try {
 
         res.sendFile(path.join(__dirname, '../../client/notes.html'))
