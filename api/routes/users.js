@@ -10,7 +10,7 @@ router.get('/signin', async (req, res) => {
         res.sendFile(path.join(__dirname, '../../client/signin.html'))
 
     } catch (error) {
-        console.log('Error');
+        res.status(500).json({ message: 'Error of server !' });
 
     }
 });
@@ -43,8 +43,7 @@ router.get('/notes', isAuthenticated, async (req, res) => {
 
         res.sendFile(path.join(__dirname, '../../client/notes.html'))
     } catch (error) {
-        console.log('Error');
-
+        res.status(500).json({ message: 'Error of server !' });
     }
 });
 
@@ -53,8 +52,7 @@ router.get('/signup', async (req, res) => {
         res.sendFile(path.join(__dirname, '../../client/signup.html'));
 
     } catch (error) {
-        console.log('Error');
-
+        res.status(500).json({ message: 'Error of server !' });
     }
 
 });
@@ -67,14 +65,17 @@ router.post('/signup', async (req, res) => {
         const errors = []
 
         if (name.length <= 0) {
-            errors.push({ text: 'Please Insert Your Name' })
+            errors.push({ text: 'Please Insert Your Name' });
         }
 
-        if (password != confirm_password) {
-            errors.push({ text: 'Password do not match' })
+        if (password != confirm_password || confirm_password != password) {
+            errors.push({ text: 'Password and confirm password do not match' })
         }
 
-        if (password.length < 4) {
+        if (confirm_password.length < 4 || !confirm_password || confirm_password.trim() === '') {
+            errors.push({ text: 'Confirm Password must be at least 4 characters' });
+        }
+        if (password.length < 4 || !password || password.trim() === '') {
             errors.push({ text: 'Password must be at least 4 characters' });
         }
 
@@ -103,7 +104,7 @@ router.post('/signup', async (req, res) => {
             res.redirect("/signin?success=Ingrese%20con%20su%20cuenta%20nueva");
         }
     } catch (error) {
-        console.log('Error');
+        res.status(500).json({ message: 'Error of server!' });
 
     }
 
@@ -120,8 +121,7 @@ router.get('/logout', (req, res, next) => {
         })
 
     } catch (error) {
-        console.log('Error');
-
+        res.status(500).json({ message: 'Error of server!' });
     }
 
 })

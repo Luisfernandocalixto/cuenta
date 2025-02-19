@@ -8,8 +8,7 @@ router.get('/', async (req, res) => {
         
         res.sendFile(path.join(__dirname, '../../client/index.html'))
     } catch (error) {
-        console.log('Error');
-        
+        res.status(500).json({ message: 'Error of server!'});        
     }
 });
 

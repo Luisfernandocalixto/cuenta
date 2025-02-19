@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Inicio de sesión y creación de cuenta">
-    <!-- <meta property="og:url" content="https://galeria-de-images.netlify.app"> -->
+    <meta property="og:url" content="https://cuenta-one.vercel.app">
     <meta property="og:image" content="/image.svg">
     <meta property="og:description" content="Mostrando login de inicio y creación de cuenta">
 
@@ -40,9 +40,9 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="password" type="password" name="password" class="validate white-text" required>
-                            <span id="visible"
-                                ><img src="/visible.webp" alt="visible"></span>
+                            <input id="password" type="password" name="password" class="validate white-text"
+                                minlength="1" required>
+                            <span id="visible"><img src="/visible.webp" alt="visible"></span>
                             <label for="password">Password</label>
                         </div>
                     </div>
@@ -65,6 +65,7 @@
     <script src="/materialize.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            let form = document.querySelector('form');
 
             M.toast({ html: 'Por favor, Ingrese correo y contraseña' })
 
@@ -96,6 +97,20 @@
 
             });
 
+            form.addEventListener('change', function (e) {
+                e.preventDefault();
+
+
+                if (input.value.trim() === '' || input.value === '' || input.value.length === 0) {
+                    form.querySelector('button[type="submit"]').disabled = true;
+                }
+                else {
+                    form.querySelector('button[type="submit"]').disabled = false;
+
+                }
+
+
+            })
 
 
         });
