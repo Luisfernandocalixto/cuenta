@@ -62,7 +62,10 @@ router.post('/signup', async (req, res) => {
     try {
 
         const { name, email, password, confirm_password } = req.body;
-        const errors = []
+        const errors = [];
+
+        // Solicitar contraseña contener letras, números y al menos un símbolo.
+        const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
         if (name.length <= 0) {
             errors.push({ text: 'Please Insert Your Name' });
@@ -76,6 +79,12 @@ router.post('/signup', async (req, res) => {
             errors.push({ text: 'Confirm Password must be at least 4 characters' });
         }
         if (password.length < 4 || !password || password.trim() === '') {
+            errors.push({ text: 'Password must be at least 4 characters' });
+        }
+
+        if (!regex.test(password) && !regex.test(confirm_password)) {
+            console.log('forma de regex');
+            
             errors.push({ text: 'Password must be at least 4 characters' });
         }
 
