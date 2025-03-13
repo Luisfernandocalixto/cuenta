@@ -50,74 +50,76 @@ router.get('/notes', isAuthenticated, async (req, res) => {
 router.get('/signup', async (req, res) => {
     try {
         res.sendFile(path.join(__dirname, '../../client/signup.html'));
-
+        
     } catch (error) {
         res.status(500).json({ message: 'Error of server !' });
     }
-
+    
 });
 
 
 router.post('/signup', async (req, res) => {
     try {
-
+        
         const { name, email, password, confirm_password } = req.body;
         const errors = [];
-
+        
         // Solicitar contraseña contener letras, números y al menos un símbolo.
         const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-
+        
         if (name.length <= 0) {
             errors.push({ text: 'Please Insert Your Name' });
         }
-
+        
         if (password != confirm_password || confirm_password != password) {
             errors.push({ text: 'Password and confirm password do not match' })
         }
-
+        
         if (confirm_password.length < 4 || !confirm_password || confirm_password.trim() === '') {
             errors.push({ text: 'Confirm Password must be at least 4 characters' });
         }
         if (password.length < 4 || !password || password.trim() === '') {
             errors.push({ text: 'Password must be at least 4 characters' });
         }
-
+        
         if (!regex.test(password) && !regex.test(confirm_password)) {
             console.log('forma de regex');
             
             errors.push({ text: 'Password must be at least 4 characters' });
         }
-
+        
         if (errors.length > 0) {
             // forma de redireccionar con sendFile
             // res.sendFile(path.join(__dirname, '../../client/signup.html'));
             // forma de redirect 
             // res.redirect(301, 'https://google.com');
             res.redirect('/signup?error=Credenciales%20Incorrectas');
-
+            return
+            
         }
-
+        
         else {
             const emailUser = await User.findOne({ email: email });
             if (emailUser) {
                 res.redirect("/signup?error=El%20correo%20ya%20existe");
                 // res.sendFile(path.join(__dirname, '../../client/signup.html'));
                 // res.status(400).sendFile(path.join(__dirname, '../../client/signup.html'));
-
+                return
             }
-
+            
             const newUser = new User({ name, email, password });
             newUser.password = await newUser.encryptPassword(password);
             await newUser.save();
             // res.sendFile(path.join(__dirname, '../../client/signin.html'));
             res.redirect("/signin?success=Ingrese%20con%20su%20cuenta%20nueva");
+            return
         }
     } catch (error) {
         res.status(500).json({ message: 'Error of server!' });
-
+        
     }
-
-
+    
+    
 });
 
 router.get('/logout', (req, res, next) => {
