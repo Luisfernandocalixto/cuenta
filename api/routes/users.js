@@ -108,7 +108,7 @@ router.post('/signup', async (req, res) => {
             }
             
             const newUser = new User({ name, email, password });
-            newUser.password = await newUser.encryptPassword(password);
+            newUser.password = await newUser.encryptPassword(password.trim());
             await newUser.save();
             // res.sendFile(path.join(__dirname, '../../client/signin.html'));
             res.redirect("/signin?success=Ingrese%20con%20su%20cuenta%20nueva");
