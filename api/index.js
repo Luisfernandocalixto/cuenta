@@ -14,6 +14,8 @@ require('./config/passport.js');
 
 
 app.set('port', process.env.PORT || 3000);
+app.disable('x-powered-by');
+
 
 // static files
 app.use(express.static(path.join(__dirname, '../client')));
