@@ -50,44 +50,42 @@ router.get('/notes', isAuthenticated, async (req, res) => {
 router.get('/signup', async (req, res) => {
     try {
         res.sendFile(path.join(__dirname, '../../client/signup.html'));
-        
+
     } catch (error) {
         res.status(500).json({ message: 'Error of server !' });
     }
-    
+
 });
 
 
 router.post('/signup', async (req, res) => {
     try {
-        
+
         const { name, email, password, confirm_password } = req.body;
         const errors = [];
-        
+
         // Solicitar contraseña contener letras, números y al menos un símbolo.
         const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-        
-        if (name.length <= 0) {
+
+        if (!name || name.trim() === '') {
             errors.push({ text: 'Please Insert Your Name' });
         }
-        
-        if (password != confirm_password || confirm_password != password) {
+
+        if (password != confirm_password) {
             errors.push({ text: 'Password and confirm password do not match' })
         }
-        
-        if (confirm_password.length < 4 || !confirm_password || confirm_password.trim() === '') {
+
+        if (confirm_password.length < 8 || !confirm_password || confirm_password.trim() === '') {
             errors.push({ text: 'Confirm Password must be at least 4 characters' });
         }
-        if (password.length < 4 || !password || password.trim() === '') {
+        if (password.length < 8 || !password || password.trim() === '') {
             errors.push({ text: 'Password must be at least 4 characters' });
         }
-        
-        if (!regex.test(password) && !regex.test(confirm_password)) {
-            console.log('forma de regex');
-            
-            errors.push({ text: 'Password must be at least 4 characters' });
+
+        if (!regex.test(password.trim()) && !regex.test(confirm_password.trim())) {
+            errors.push({ text: 'Password must be at least 8 characters minim, have letters, numbers and symbol' });
         }
-        
+
         if (errors.length > 0) {
             // forma de redireccionar con sendFile
             // res.sendFile(path.join(__dirname, '../../client/signup.html'));
@@ -95,9 +93,9 @@ router.post('/signup', async (req, res) => {
             // res.redirect(301, 'https://google.com');
             res.redirect('/signup?error=Credenciales%20Incorrectas');
             return
-            
+
         }
-        
+
         else {
             const emailUser = await User.findOne({ email: email });
             if (emailUser) {
@@ -106,7 +104,7 @@ router.post('/signup', async (req, res) => {
                 // res.status(400).sendFile(path.join(__dirname, '../../client/signup.html'));
                 return
             }
-            
+
             const newUser = new User({ name, email, password });
             newUser.password = await newUser.encryptPassword(password.trim());
             await newUser.save();
@@ -116,10 +114,10 @@ router.post('/signup', async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ message: 'Error of server!' });
-        
+
     }
-    
-    
+
+
 });
 
 router.get('/logout', (req, res, next) => {
