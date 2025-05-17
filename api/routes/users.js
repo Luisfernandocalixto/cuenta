@@ -1,25 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User.js');
 const passport = require('passport');
-const path = require('path');
 const { isAuthenticated } = require('../helpers/auth.js');
+const { UserController } = require('../controllers/userController.js');
 
-router.get('/signin', async (req, res) => {
-    try {
-        res.sendFile(path.join(__dirname, '../../client/signin.html'))
-
-    } catch (error) {
-        res.status(500).json({ message: 'Error of server !' });
-
-    }
-});
+router.get('/signin', UserController.getSignIn);
 
 router.post('/signin', passport.authenticate('local', {
     successRedirect: '/notes',
-    failureRedirect: '/signin?error=La%20Authenticación%20Falló',
-    failureFlash: true,
-
+    failureRedirect: '/signin?error=error in session',
 }));
 
 // router.get('/api/user', async (req, res) => {
@@ -38,102 +27,14 @@ router.post('/signin', passport.authenticate('local', {
 
 // redireccionar directamente a signin 
 // router.get('/notes', isAuthenticated, async (req, res) => {  
-router.get('/notes', isAuthenticated, async (req, res) => {
-    try {
+router.get('/notes', isAuthenticated, UserController.getNotes);
 
-        res.sendFile(path.join(__dirname, '../../client/notes.html'))
-    } catch (error) {
-        res.status(500).json({ message: 'Error of server !' });
-    }
-});
-
-router.get('/signup', async (req, res) => {
-    try {
-        res.sendFile(path.join(__dirname, '../../client/signup.html'));
-
-    } catch (error) {
-        res.status(500).json({ message: 'Error of server !' });
-    }
-
-});
+router.get('/signup', UserController.getSignup);
 
 
-router.post('/signup', async (req, res) => {
-    try {
+router.post('/signup', UserController.postSignup);
 
-        const { name, email, password, confirm_password } = req.body;
-        const errors = [];
-
-        // Solicitar contraseña contener letras, números y al menos un símbolo.
-        const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-
-        if (!name || name.trim() === '') {
-            errors.push({ text: 'Please Insert Your Name' });
-        }
-
-        if (password != confirm_password) {
-            errors.push({ text: 'Password and confirm password do not match' })
-        }
-
-        if (confirm_password.length < 8 || !confirm_password || confirm_password.trim() === '') {
-            errors.push({ text: 'Confirm Password must be at least 4 characters' });
-        }
-        if (password.length < 8 || !password || password.trim() === '') {
-            errors.push({ text: 'Password must be at least 4 characters' });
-        }
-
-        if (!regex.test(password.trim()) && !regex.test(confirm_password.trim())) {
-            errors.push({ text: 'Password must be at least 8 characters minim, have letters, numbers and symbol' });
-        }
-
-        if (errors.length > 0) {
-            // forma de redireccionar con sendFile
-            // res.sendFile(path.join(__dirname, '../../client/signup.html'));
-            // forma de redirect 
-            // res.redirect(301, 'https://google.com');
-            res.redirect('/signup?error=Credenciales%20Incorrectas');
-            return
-
-        }
-
-        else {
-            const emailUser = await User.findOne({ email: email });
-            if (emailUser) {
-                res.redirect("/signup?error=El%20correo%20ya%20existe");
-                // res.sendFile(path.join(__dirname, '../../client/signup.html'));
-                // res.status(400).sendFile(path.join(__dirname, '../../client/signup.html'));
-                return
-            }
-
-            const newUser = new User({ name, email, password });
-            newUser.password = await newUser.encryptPassword(password.trim());
-            await newUser.save();
-            // res.sendFile(path.join(__dirname, '../../client/signin.html'));
-            res.redirect("/signin?success=Ingrese%20con%20su%20cuenta%20nueva");
-            return
-        }
-    } catch (error) {
-        res.status(500).json({ message: 'Error of server!' });
-
-    }
-
-
-});
-
-router.get('/logout', (req, res, next) => {
-    try {
-        req.logout(function (err) {
-            if (err) {
-                return next(err);
-            }
-            res.redirect(`/`);
-        })
-
-    } catch (error) {
-        res.status(500).json({ message: 'Error of server!' });
-    }
-
-})
+router.get('/logout', UserController.logout);
 
 
 module.exports = router;

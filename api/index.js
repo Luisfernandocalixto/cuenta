@@ -4,8 +4,6 @@ const path = require('path');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const passport = require('passport');
-const flash = require('connect-flash');
-const MongoStore = require('connect-mongo');
 
 // server
 const app = express();
@@ -50,13 +48,6 @@ app.use(session({
 // }));
 
 
-app.use(flash());
-app.use((req, res, next) => {
-    res.locals.success_msg = req.flash('success_msg');
-    res.locals.error_msg = req.flash('error_msg');
-    res.locals.error = req.flash('error');
-    next();
-});
 
 app.use((req, res, next) => {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
