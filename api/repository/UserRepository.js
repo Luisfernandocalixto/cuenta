@@ -1,4 +1,38 @@
 const z = require("zod");
+const User = require("../models/User");
+
+class UserRepository {
+    static async login({ email, password }) {
+
+        const verify = validateUserSignIn({ email, password });
+        if (!verify.success) {
+            const message = JSON.parse(verify.error);
+            const errors = message.map(err => err.message);
+            throw new Error(errors);
+        }
+        const user = await User.findOne({ email: email });
+
+        if (!user) {
+            throw new Error('Not user found');
+        }
+        else {
+            const math = await user.matchPassword(password);
+            if (math) {
+                const publicUser = {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email
+                }
+                return publicUser;
+            }
+            else {
+                throw new Error("Incorrect Password");
+            }
+        }
+
+
+    }
+}
 
 const user = z.object({
     name: z.string({ message: 'name invalid!' }).trim({}).min(1, { message: 'name empty!' }),
@@ -18,6 +52,7 @@ function validateUserSignIn(input) {
 
 module.exports = {
     validateUserSignup,
-    validateUserSignIn 
-};
+    validateUserSignIn,
+    UserRepository
+}
 

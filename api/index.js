@@ -1,9 +1,9 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const methodOverride = require('method-override');
-const session = require('express-session');
-const passport = require('passport');
+const cookieParser = require('cookie-parser');
+const { JWT_SECRET } = require('./config/config.js');
+const jwt = require('jsonwebtoken');
 
 // server
 const app = express();
@@ -13,6 +13,7 @@ require('./config/passport.js');
 
 app.set('port', process.env.PORT || 3000);
 app.disable('x-powered-by');
+app.use(cookieParser());
 
 
 // static files
@@ -25,27 +26,23 @@ app.use(express.static(path.join(__dirname, '../js')));
 // const www = process.env.WWW || './';
 // app.use(express.static(www));
 
+app.use((req, res, next) => {
+    const token = req.cookies.access_token
+    req.session = { user: null }
+    try {
+        const data = jwt.verify(token, JWT_SECRET)
+        req.session.user = data
+    } catch (error) {
+
+    }
+    next();
+})
+
+
 
 // middlewares
 app.use(express.urlencoded({ extended: false }));
-app.use(methodOverride('_method'));
-app.use(session({
-    secret: 'mysecretapp',
-    resave: false,
-    saveUninitialized: false,
-}));
-
-// app.use(session({
-//     secret: 'mysecretapp',
-//     resave: false,// no save the session no modifications
-//     saveUninitialized: false, // not saved sessions not initial
-//     store: MongoStore.create({
-//         mongoUrl: process.env.DATABASE_URL,
-//         ttl: 2 * 24 * 60 * 60,
-//         autoRemove: 'native'
-//     })
-
-// }));
+app.use(express.json());
 
 
 
@@ -56,14 +53,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.use((req, res, next) => {
-    res.locals.user = req.user || null
-    next()
-})
-
 // routes
 app.use(require('./routes/index.js'));
 app.use(require('./routes/users.js'));
@@ -73,4 +62,3 @@ app.use(require('./routes/users.js'));
 app.listen(app.get('port'), () => {
     console.log(`Server listening on http://localhost:${app.get('port')}`);
 })
-
