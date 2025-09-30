@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -7,14 +7,13 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Inicio de sesión y creación de cuenta">
     <meta property="og:url" content="https://cuenta-one.vercel.app">
-    <meta property="og:image" content="/image.svg">
+    <meta property="og:image" content="/img/image.svg">
     <meta property="og:description" content="Mostrando login de inicio y creación de cuenta">
 
     <title>Crear Cuenta</title>
-    <link rel="shortcut icon" href="/image.svg" type="image/x-icon">
-    <link rel="stylesheet" href="/materialize.css">
-    <link rel="stylesheet" href="/main.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" href="/img/image.svg" type="image/x-icon">
+    <link rel="stylesheet" href="/css/materialize.css">
+    <link rel="stylesheet" href="/css/main.css">
 
 
 </head>
@@ -47,7 +46,7 @@
                     <div class="row">
                         <div class="input-field col s12">
                             <input id="password" type="password" placeholder="*****" name="password" class="validate white-text" required>
-                            <span id="visible"><img src="/visible.webp" alt="Ver contraseña"></span>
+                            <span id="visible"><img src="/img/visible.webp" alt="Ver contraseña"></span>
                             <label for="password">Contraseña</label>
                         </div>
                     </div>
@@ -73,9 +72,9 @@
         <a href="/signin" class="">Iniciar sesión</a>
     </div>
 
-    <h1 id="error-message"></h1>
-    <script src="/materialize.js"></script>
-    <script src="/signup.js"></script>
+    <span id="error-message"></span>
+    <script src="/js/materialize.js"></script>
+    <script type="module" src="/js/signup.js"></script>
 </body>
 
 </html>

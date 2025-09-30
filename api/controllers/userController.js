@@ -111,7 +111,7 @@ class UserController {
 
     }
 
-    static logout(req, res, next) {
+    static logout(req, res) {
         try {
             success = 'exit session';
             res.clearCookie('access_token').redirect(`/signin/?error=${success}`);

@@ -1,3 +1,4 @@
+import { showMessage } from "/js/signin/message.js";
 document.addEventListener('DOMContentLoaded', function () {
     let form = document.querySelector('form');    
     M.toast({ html: 'Por favor, Ingrese correo y contraseña' })
@@ -8,12 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let urlParams = new URLSearchParams(urlParamsConfig);
     const errorMessage = urlParams.get('error');
     const infoMessage = urlParams.get('success');
-    if (errorMessage) {
-        M.toast({ html: `<div class="toast-p">${decodeURI(errorMessage)}</div>` })
-    }
-    if (infoMessage) {
-        M.toast({ html: `<div class="toast-s">${decodeURI(infoMessage)}</div>` })
-    }
+    if (errorMessage) M.toast({ html: `<div class="toast-p">${decodeURI(errorMessage)}</div>` });
+    
+    if (infoMessage)  M.toast({ html: `<div class="toast-s">${showMessage({data: decodeURI(infoMessage)})}</div>` });
 
 
     let visible = document.getElementById('visible')
@@ -22,10 +20,10 @@ document.addEventListener('DOMContentLoaded', function () {
     visible.addEventListener("click", function () {
         if (input.type === 'password') {
             input.type = "text";
-            visible.innerHTML = `<img src="/invisible.webp" alt="invisible">`
+            visible.innerHTML = `<img src="/img/invisible.webp" alt="invisible">`
         } else {
             input.type = 'password'
-            visible.innerHTML = `<img src="/visible.webp" alt="visible">`
+            visible.innerHTML = `<img src="/img//visible.webp" alt="visible">`
         }
 
     });
@@ -65,17 +63,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
             .then(data => {
-                if (!data) {
-
-                }
-                else {
-                    M.toast({ html: `<div class="toast-p">${data}</div>` })
-                }
-
+                if (data) M.toast({ html: `<div class="toast-p">${showMessage({data})}</div>` })
             })
-            .finally(() => {
-                button.disabled = false
-                form.reset();
+        .finally(() => {
+            button.disabled = false
+            form.reset();
             })
 
 

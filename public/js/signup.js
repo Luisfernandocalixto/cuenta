@@ -1,3 +1,4 @@
+import { showMessage } from "/js/signup/message.js";
 document.addEventListener('DOMContentLoaded', function () {
 
     // Capture the message of error of the URL
@@ -5,25 +6,26 @@ document.addEventListener('DOMContentLoaded', function () {
     let urlParamsConfig = urlParamsSaved.replace("signup?", "")
     let urlParams = new URLSearchParams(urlParamsConfig);
     const errorMessage = urlParams.get('error');
-    if (errorMessage) {
-        M.toast({ html: `<div class="toast-p">${decodeURI(errorMessage)}</div>` })
-    }
-
-
+    const isError = decodeURI(errorMessage);
+    if (errorMessage)  M.toast({ html: `<div class="toast-p">${showMessage({data: isError})}</div>` });
     let visible = document.getElementById('visible');
-
     let input = document.getElementById('password');
     let inputConfirm = document.getElementById('confirm_password');
+    const buttonSubmit= document.querySelector('button[type="submit"]');
+    
+
+
+
     visible.addEventListener('click', function () {
         if (input.type === 'password') {
             input.type = "text";
             inputConfirm.type = "text";
-            visible.innerHTML = `<img src="/invisible.webp" alt="invisible">`
+            visible.innerHTML = `<img src="/img/invisible.webp" alt="invisible">`
         }
         else {
             input.type = "password";
             inputConfirm.type = "password";
-            visible.innerHTML = `<img src="/visible.webp" alt="visible">`
+            visible.innerHTML = `<img src="/img/visible.webp" alt="visible">`
 
         }
     })
@@ -36,11 +38,11 @@ document.addEventListener('DOMContentLoaded', function () {
     input.addEventListener('change', function () {
         // Validar la entrada del usuario y habilitar/deshabilitar el botón en consecuencia
         if (input.value.trim() !== '' & regex.test(input.value)) {
-            document.querySelector('button[type="submit"]').disabled = false;
+            buttonSubmit.disabled = false;
             contentInfo.textContent = 'Contraseña'
             input.style.borderBottomColor = '#1b7a2d ';
         } else {
-            document.querySelector('button[type="submit"]').disabled = true;
+            buttonSubmit.disabled = true;
             contentInfo.textContent = 'La contraseña debe contener letras, números y al menos un símbolo.';
 
             input.style.borderBottomColor = '#f44336';
@@ -50,11 +52,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     inputConfirm.addEventListener('change', function () {
         if (inputConfirm.value.trim() !== '' & regex.test(inputConfirm.value)) {
-            document.querySelector('button[type="submit"]').disabled = false;
+            buttonSubmit.disabled = false;
             contentInfoConfirm.textContent = 'Contraseña'
             inputConfirm.style.borderBottomColor = '#1b7a2d ';
         } else {
-            document.querySelector('button[type="submit"]').disabled = true;
+            buttonSubmit.disabled = true;
             contentInfoConfirm.textContent = 'La contraseña debe contener letras, números y al menos un símbolo.';
 
             inputConfirm.style.borderBottomColor = '#f44336';

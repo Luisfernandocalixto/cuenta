@@ -1,19 +1,18 @@
 document.addEventListener('DOMContentLoaded', async function () {
     // Initialization Quill
-    var quill = new Quill('#editor', {
+    let quill = new Quill('#editor', {
         theme: 'snow'
     });
 
-    let editor = document.querySelector(".ql-editor")
 
     // have content does click in the button 
     document.getElementById('get-content').addEventListener('click', function () {
-        var content = quill.root.innerHTML;
+        let content = quill.root.innerHTML;
         document.getElementById('output').innerHTML = content;
     });
 
-    var elements = document.querySelectorAll('.sidenav');
-    var instances = M.Sidenav.init(elements)
+    let elements = document.querySelectorAll('.sidenav');
+    let instances = M.Sidenav.init(elements)
 
     // await fetch('/api/user')
     //     .then(response => response.json())

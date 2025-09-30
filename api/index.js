@@ -17,10 +17,7 @@ app.use(cookieParser());
 
 
 // static files
-app.use(express.static(path.join(__dirname, '../client')));
-app.use(express.static(path.join(__dirname, '../css')));
-app.use(express.static(path.join(__dirname, '../img')));
-app.use(express.static(path.join(__dirname, '../js')));
+app.use(express.static(path.join(__dirname,'..', '/public')));
 
 // o
 // const www = process.env.WWW || './';
