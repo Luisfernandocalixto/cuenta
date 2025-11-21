@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let urlParams = new URLSearchParams(urlParamsConfig);
     const errorMessage = urlParams.get('error');
     const infoMessage = urlParams.get('success');
-    if (errorMessage) M.toast({ html: `<div class="toast-p">${decodeURI(errorMessage)}</div>` });
+    if (errorMessage) M.toast({ html: `<div class="toast-p">${showMessage({data: decodeURI(errorMessage)})}</div>` });
     
     if (infoMessage)  M.toast({ html: `<div class="toast-s">${showMessage({data: decodeURI(infoMessage)})}</div>` });
 

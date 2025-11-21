@@ -32,11 +32,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let contentInfo = document.querySelector('label[for="password"]');
     let contentInfoConfirm = document.querySelector('label[for="confirm_password"]');
-    // Expresión regular para validar la contraseña
+    // Expression  regular for validate  password
     const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
 
     input.addEventListener('change', function () {
-        // Validar la entrada del usuario y habilitar/deshabilitar el botón en consecuencia
+        // Validate  input of the user and enabled or disabled button
         if (input.value.trim() !== '' & regex.test(input.value)) {
             buttonSubmit.disabled = false;
             contentInfo.textContent = 'Contraseña'

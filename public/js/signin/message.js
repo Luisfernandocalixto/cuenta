@@ -2,6 +2,7 @@ function showMessage({ data }) {
     if (data.includes("Not user found")) return "El usuario no existe";
     if (data.includes('Incorrect Password')) return "Contraseña incorrecta";
     if (data.includes('Error start session')) return "Error al iniciar sesión";
+    if (data.includes('exit session')) return "Sesión terminada";
     
     // message success 
     if (data.includes('account created!')) return "Cuenta creada exitosamente!";
