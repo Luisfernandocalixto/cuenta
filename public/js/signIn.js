@@ -1,4 +1,4 @@
-import { showMessage } from "/js/signin/message.js";
+import { showMessage } from "./signin/message.js";
 document.addEventListener('DOMContentLoaded', function () {
     let form = document.querySelector('form');    
     M.toast({ html: 'Por favor, Ingrese correo y contraseña' })
@@ -14,16 +14,16 @@ document.addEventListener('DOMContentLoaded', function () {
     if (infoMessage)  M.toast({ html: `<div class="toast-s">${showMessage({data: decodeURI(infoMessage)})}</div>` });
 
 
-    let visible = document.getElementById('visible')
-    let input = document.getElementById('password')
+    let visible = document.getElementById('visible');
+    let input = document.getElementById('password');
 
     visible.addEventListener("click", function () {
         if (input.type === 'password') {
             input.type = "text";
-            visible.innerHTML = `<img src="/img/invisible.webp" alt="invisible">`
+            visible.innerHTML = `<img src="/img/invisible.webp" alt="invisible">`;
         } else {
-            input.type = 'password'
-            visible.innerHTML = `<img src="/img//visible.webp" alt="visible">`
+            input.type = 'password';
+            visible.innerHTML = `<img src="/img//visible.webp" alt="visible">`;
         }
 
     });
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const inputEmail = form.querySelector('input[name="email"]');
     const inputPassword = form.querySelector('input[name="password"]');
     form.addEventListener('submit', function (event) {
-        event.preventDefault()
+        event.preventDefault();
 
         button.disabled = true;
         fetch('/signin', {
@@ -57,21 +57,21 @@ document.addEventListener('DOMContentLoaded', function () {
         })
             .then(res => {
                 if (res.ok) {                    
-                    window.location.href = '/notes'
+                    window.location.href = '/notes';
                 } else {
                     return res.text();
                 }
             })
             .then(data => {
-                if (data) M.toast({ html: `<div class="toast-p">${showMessage({data})}</div>` })
+                if (data) M.toast({ html: `<div class="toast-p">${showMessage({data})}</div>` });
             })
         .finally(() => {
-            button.disabled = false
+            button.disabled = false;
             form.reset();
             })
 
 
-    })
+    });
 
 
 });

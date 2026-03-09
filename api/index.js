@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const { JWT_SECRET } = require('./config/config.js');
 const jwt = require('jsonwebtoken');
+const { default: rateLimit } = require('express-rate-limit');
 
 // server
 const app = express();
@@ -24,11 +25,11 @@ app.use(express.static(path.join(__dirname,'..', '/public')));
 // app.use(express.static(www));
 
 app.use((req, res, next) => {
-    const token = req.cookies.access_token
-    req.session = { user: null }
+    const token = req.cookies.access_token;
+    req.session = { user: null };
     try {
-        const data = jwt.verify(token, JWT_SECRET)
-        req.session.user = data
+        const data = jwt.verify(token, JWT_SECRET);
+        req.session.user = data;
     } catch (error) {
 
     }
@@ -49,6 +50,16 @@ app.use((req, res, next) => {
     res.setHeader('Expires', '0');
     next();
 });
+
+const limiter = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: 150, // limit each ip to 150 request 
+    message: 'Request limit exceeded'
+});
+
+app.use(limiter);
+
+
 
 // routes
 app.use(require('./routes/index.js'));

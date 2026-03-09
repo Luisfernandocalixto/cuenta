@@ -2,7 +2,7 @@ const helpers = {};
 
 helpers.isAuthenticated = (req, res, next) => {
     try {
-        const user = req.session
+        const user = req.session;
         if (user.user) {
             return next();
         }
@@ -15,7 +15,7 @@ helpers.isAuthenticated = (req, res, next) => {
 
 helpers.isNotAuthenticated = (req, res, next) => {
     try {
-        const user = req.session
+        const user = req.session;
         if (!user.user) {
             return next();
         }

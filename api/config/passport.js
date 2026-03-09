@@ -30,7 +30,7 @@ passport.use(new LocalStrategy({
                 }
             }
         } catch (error) {
-            return done(error)
+            return done(error);
         }
     }));
 
@@ -41,9 +41,9 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await User.findById(id)
-        done(null, user)
+        const user = await User.findById(id);
+        done(null, user);
     } catch (error) {
-        done(error, null)
+        done(error, null);
     }
 });

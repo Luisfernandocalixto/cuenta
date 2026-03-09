@@ -1,5 +1,5 @@
 const z = require("zod");
-const User = require("../models/User");
+const User = require("../models/User.js");
 
 class UserRepository {
     static async login({ email, password }) {

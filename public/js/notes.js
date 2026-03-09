@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
 
     let elements = document.querySelectorAll('.sidenav');
-    let instances = M.Sidenav.init(elements)
+    let instances = M.Sidenav.init(elements);
 
     // await fetch('/api/user')
     //     .then(response => response.json())
@@ -44,4 +44,4 @@ document.addEventListener('DOMContentLoaded', async function () {
     //         }
     //     })
     //     .catch(error => console.error('Error getting data'));
-})
+});

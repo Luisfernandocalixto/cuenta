@@ -1,9 +1,9 @@
-import { showMessage } from "/js/signup/message.js";
+import { showMessage } from "./signup/message.js";
 document.addEventListener('DOMContentLoaded', function () {
 
     // Capture the message of error of the URL
     const urlParamsSaved = window.location.search;
-    let urlParamsConfig = urlParamsSaved.replace("signup?", "")
+    let urlParamsConfig = urlParamsSaved.replace("signup?", "");
     let urlParams = new URLSearchParams(urlParamsConfig);
     const errorMessage = urlParams.get('error');
     const isError = decodeURI(errorMessage);
@@ -20,12 +20,12 @@ document.addEventListener('DOMContentLoaded', function () {
         if (input.type === 'password') {
             input.type = "text";
             inputConfirm.type = "text";
-            visible.innerHTML = `<img src="/img/invisible.webp" alt="invisible">`
+            visible.innerHTML = `<img src="/img/invisible.webp" alt="invisible">`;
         }
         else {
             input.type = "password";
             inputConfirm.type = "password";
-            visible.innerHTML = `<img src="/img/visible.webp" alt="visible">`
+            visible.innerHTML = `<img src="/img/visible.webp" alt="visible">`;
 
         }
     })
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Validate  input of the user and enabled or disabled button
         if (input.value.trim() !== '' & regex.test(input.value)) {
             buttonSubmit.disabled = false;
-            contentInfo.textContent = 'Contraseña'
+            contentInfo.textContent = 'Contraseña';
             input.style.borderBottomColor = '#1b7a2d ';
         } else {
             buttonSubmit.disabled = true;
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
     inputConfirm.addEventListener('change', function () {
         if (inputConfirm.value.trim() !== '' & regex.test(inputConfirm.value)) {
             buttonSubmit.disabled = false;
-            contentInfoConfirm.textContent = 'Contraseña'
+            contentInfoConfirm.textContent = 'Contraseña';
             inputConfirm.style.borderBottomColor = '#1b7a2d ';
         } else {
             buttonSubmit.disabled = true;

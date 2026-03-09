@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('node:path');
 const User = require('../models/User.js');
 const { validateUserSignup, UserRepository } = require('../repository/UserRepository.js');
 const jwt = require('jsonwebtoken');
@@ -9,7 +9,7 @@ let success = '';
 class UserController {
     static async getSignIn(req, res) {
         try {
-            res.sendFile(path.join(__dirname, '../../client/signin.html'))
+            res.sendFile(path.join(__dirname, '../../client/signin.html'));
 
         } catch (error) {
             res.status(500).json({ message: 'Error of server !' });
@@ -21,7 +21,7 @@ class UserController {
         try {
             const { email, password } = req.body;
             const user = await UserRepository.login({ email, password });
-            const token = jwt.sign({ id: user.id, email: user.email, name: user.name }, JWT_SECRET, { expiresIn: '1h' })
+            const token = jwt.sign({ id: user.id, email: user.email, name: user.name }, JWT_SECRET, { expiresIn: '1h' });
             res.cookie('access_token', token, {
                 httpOnly: true, // la cookie solo se puede acceder en el  servidor
                 secure: process.env.NODE_ENV === 'production', // la cookie solo se puede acceder en https
@@ -39,7 +39,7 @@ class UserController {
     static async getNotes(req, res) {
         try {
 
-            res.sendFile(path.join(__dirname, '../../client/notes.html'))
+            res.sendFile(path.join(__dirname, '../../client/notes.html'));
         } catch (error) {
             res.status(500).json({ message: 'Error of server !' });
         }
@@ -72,7 +72,7 @@ class UserController {
             }
 
             if (password !== confirm_password) {
-                errors.push('Password and confirm password do not match')
+                errors.push('Password and confirm password do not match');
             }
 
             if (!regex.test(password.trim()) && !regex.test(confirm_password.trim())) {
